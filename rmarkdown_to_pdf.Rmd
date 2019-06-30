@@ -1,0 +1,96 @@
+---
+title: "タイトル"
+author: "執筆者"
+date: "`r Sys.Date()`"
+output:
+  pdf_document:
+    fig_caption: yes
+    latex_engine: xelatex
+    number_sections: yes
+    toc: yes # 目次の表示
+    includes:
+      in_header: style.sty
+  html_document: default
+  word_document: default
+mainfont: YuGothic Medium
+monofont: Cica-Regular
+---
+
+```{r setup, echo=F}
+# チャンクオプションの設定
+knitr::opts_chunk$set(echo=F, cache=T, warning=F, fig.width=8, fig.height=5.0, fig.align='center', fig.pos='h')
+require(tidyverse)
+```
+
+# 文章
+文章などは通常のmarkdownのように書けば良い[^1]．
+
+通常， **太字** ， *斜体* ， ~~取り消し線~~
+
+## 日本語を表示させるための設定
+通常の状態では日本語がうまく改行されないので，ヘッダーやスタイルファイルで設定する必要がある．
+ヘッダーにlatexの設定を直接記述するとヘッダーの行数が多くなり煩雑なため，別途スタイルファイルを用意して，Rmdファイルと同じディレクトリに配置している．
+
+````
+% 日本語を含む段落を行分割するための設定
+\XeTeXlinebreaklocale "ja"
+\XeTeXlinebreakskip=0pt plus 1pt
+\XeTeXlinebreakpenalty=0
+% 半角分戻る
+\def\<{\@ifstar{\zx@hwback\nobreak}{\zx@hwback\relax}}
+\def\zx@hwback#1{\leavevmode#1\hskip-.5em\relax}
+% 日本語字下げ設定 & 行間設定
+\RequirePackage{indentfirst}
+\RequirePackage{setspace}
+\setlength{\parskip}{1.2pt}
+\setstretch{1.2}
+\parindent=1em
+````
+
+
+[^1]: 脚注
+
+# 数式
+数式は，`$`で囲んで行う．
+インライン数式は`$`，$e^{i\theta} = \cos \theta + i\sin \theta$ ．
+ディスプレイ数式は，`$$`．
+式番号の表示や相互参照をさせたい場合，pandoc-crossrefなどの別の拡張機能が必要．
+
+$$
+e^{i\theta} = \cos \theta + i\sin \theta
+$$
+
+# 図を挿入する
+## markdown記法を用いた画像の挿入
+通常，pandocの仕様上，markdown記法で行う画像の挿入は常にページ上部に表示されてしまう．
+デメリットとして，段落と画像の順番が分かりづらい並びになってしまうことがある．
+これをコード記述位置 (latexで言う"[H]"オプション) に常に画像を表示させるように，Rmdファイル冒頭で指定したスタイルファイル (ここでは，`style.sty` ) に以下を記述する．
+
+````
+% 画像挿入を常にh (コード記述位置) にする設定
+\usepackage{float}
+\let\origfigure\figure
+\let\endorigfigure\endfigure
+\renewenvironment{figure}[1][2] {
+    \expandafter\origfigure\expandafter[H]
+} {
+    \endorigfigure
+}
+````
+
+![アヤメ](./900px-Iris_sanguinea_01.jpeg){#fig:01 width=30%}
+
+## グラフの挿入
+ggplotなど，Rのコードチャンク内で図を挿入する場合は，キャプション，図の幅，高さなどはチャンクのオプションで指定する．
+相互参照用のラベルは `fig.cap="キャプション \\label{fig:fig01}"` のように，`fig.cap` の宣言の中で記述する．
+
+```{r, fig.cap="散布図 \\label{fig:fig01}"}
+iris %>%
+	ggplot(aes(x = Sepal.Length, y = Petal.Length, color = Species))+
+	geom_point()
+```
+
+# 参考文献 {-}
+- r - Figure position in markdown when converting to PDF with knitr and pandoc - Stack Overflow, https://stackoverflow.com/questions/16626462/figure-position-in-markdown-when-converting-to-pdf-with-knitr-and-pandoc?rq=1
+- ［R］R MarkdownをPDFにして論文を書くときのテンプレート - 盆暗の学習記録, https://nigimitama.hatenablog.jp/entry/2019/01/13/021447<Paste>
+

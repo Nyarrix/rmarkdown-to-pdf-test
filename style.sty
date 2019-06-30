@@ -1,0 +1,22 @@
+% 日本語を含む段落を行分割するための設定
+\XeTeXlinebreaklocale "ja"
+\XeTeXlinebreakskip=0pt plus 1pt
+\XeTeXlinebreakpenalty=0
+% 半角分戻る
+\def\<{\@ifstar{\zx@hwback\nobreak}{\zx@hwback\relax}}
+\def\zx@hwback#1{\leavevmode#1\hskip-.5em\relax}
+% 日本語字下げ設定 & 行間設定
+\RequirePackage{indentfirst}
+\RequirePackage{setspace}
+\setlength{\parskip}{1.2pt}
+\setstretch{1.2}
+\parindent=1em
+% 画像挿入を常にh (コード記述位置) にする設定
+\usepackage{float}
+\let\origfigure\figure
+\let\endorigfigure\endfigure
+\renewenvironment{figure}[1][2] {
+    \expandafter\origfigure\expandafter[H]
+} {
+    \endorigfigure
+}
