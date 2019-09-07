@@ -91,6 +91,7 @@ iris %>%
 ```
 
 # 参考文献 {-}
-- r - Figure position in markdown when converting to PDF with knitr and pandoc - Stack Overflow, https://stackoverflow.com/questions/16626462/figure-position-in-markdown-when-converting-to-pdf-with-knitr-and-pandoc?rq=1
-- ［R］R MarkdownをPDFにして論文を書くときのテンプレート - 盆暗の学習記録, https://nigimitama.hatenablog.jp/entry/2019/01/13/021447<Paste>
+- r - Figure position in markdown when converting to PDF with knitr and pandoc - Stack Overflow, https://stackoverflow.com/questions/16626462/figure-position-in-markdown-when-converting-to-pdf-with-knitr-and-pandoc?rq=1 , 2019年9月7日閲覧
+- ［R］R MarkdownをPDFにして論文を書くときのテンプレート - 盆暗の学習記録, https://nigimitama.hatenablog.jp/entry/2019/01/13/021447 , 2019年9月7日閲覧
+- XeLaTeX で日本語する件について [電脳世界の奥底にて], http://zrbabbler.sp.land.to/xelatex.html , 2019年9月7日閲覧
 
